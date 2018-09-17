@@ -6,10 +6,10 @@
 
         /* ------------------------------------------- */
 
-        if($('.acf-postbox')[0]){
+        if($('.acf-postbox .acf-tab-wrap')[0]){
             var parentBox = merge_acf_tabs();
 
-            if($('#wpseo_meta')[0] && parentBox){
+            if($('#wpseo_meta')[0]){
                 merge_yoast_tab('SEO', 'yoast', $('#wpseo_meta'), parentBox['tab'], parentBox['box']); 
             }
         }
