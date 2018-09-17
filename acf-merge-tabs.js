@@ -9,7 +9,7 @@
         if($('.acf-postbox')[0]){
             var parentBox = merge_acf_tabs();
 
-            if($('#wpseo_meta')[0]){
+            if($('#wpseo_meta')[0] && parentBox){
                 merge_yoast_tab('SEO', 'yoast', $('#wpseo_meta'), parentBox['tab'], parentBox['box']); 
             }
         }
@@ -32,18 +32,23 @@
                     var field = acf.getInstance($('.acf-field[data-key='+a.data('key')+']'));
                     firstBoxInstance.addTab(a, field).close();
                 });
+
+                // Merge the tab content
+                if (tab_wraps.length > 1) {      
+
+                    tab_wraps.not(firstBox).each(function() {
+                        $(this).children().appendTo(firstBox);
+                        $(this).parents(".acf-postbox").remove();
+                    });
+                }
+                return {'tab': firstBoxInstance, 'box': firstBox};
+            }else if(tab_groups.length == 1){
+                firstBoxTab.closest('.acf-fields.inside').siblings('h2.hndle').find('span').html('PAGE CONTENTS AND SETTINGS');
+                firstBoxInstance = acf.getInstance(firstBoxTab); 
+                return {'tab': firstBoxInstance, 'box': firstBox};
+            }else{
+                return false;
             }
-
-            // Merge the tab content
-            if (tab_wraps.length > 1) {      
-
-                tab_wraps.not(firstBox).each(function() {
-                    $(this).children().appendTo(firstBox);
-                    $(this).parents(".acf-postbox").remove();
-                });
-            }
-
-            return {'tab': firstBoxInstance, 'box': firstBox};
         }
 
         /* ------------------------------------------- */
